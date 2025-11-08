@@ -1,1 +1,10 @@
+version: "3.9"
 services:
+  taskmanager:
+    build: .
+    container_name: taskmanager
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    restart: unless-stopped
