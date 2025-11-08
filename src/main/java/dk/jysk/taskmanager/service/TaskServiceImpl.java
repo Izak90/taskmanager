@@ -4,7 +4,6 @@ import dk.jysk.taskmanager.entity.TaskEntity;
 import dk.jysk.taskmanager.exception.TaskNotFoundException;
 import dk.jysk.taskmanager.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
