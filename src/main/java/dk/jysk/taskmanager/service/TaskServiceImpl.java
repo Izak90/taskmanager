@@ -1,7 +1,7 @@
 package dk.jysk.taskmanager.service;
 
 import dk.jysk.taskmanager.entity.TaskEntity;
-import dk.jysk.taskmanager.exceptions.TaskNotFoundException;
+import dk.jysk.taskmanager.exception.TaskNotFoundException;
 import dk.jysk.taskmanager.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskEntity findById(Long id) {
-        return taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Task with id " + id + " not found.", "BAD_TASK_ID", HttpStatus.BAD_REQUEST));
+        return taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Task with id " + id + " not found."));
     }
 
     @Override

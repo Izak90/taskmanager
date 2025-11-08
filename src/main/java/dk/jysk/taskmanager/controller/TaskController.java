@@ -1,7 +1,7 @@
 package dk.jysk.taskmanager.controller;
 
 import dk.jysk.taskmanager.entity.TaskEntity;
-import dk.jysk.taskmanager.exceptions.CreatingTaskException;
+import dk.jysk.taskmanager.exception.TaskCreationException;
 import dk.jysk.taskmanager.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class TaskController {
     @ResponseStatus(HttpStatus.CREATED)
     public TaskEntity create(@Valid @RequestBody TaskEntity taskEntity) {
         if (taskEntity.getId() != null) {
-            throw new CreatingTaskException("Error creating a new task. The parameter id cannot be passed", "BAD_TASK_ID", HttpStatus.BAD_REQUEST);
+            throw new TaskCreationException("Error creating a new task. The parameter id cannot be passed");
         }
         return service.save(taskEntity);
     }

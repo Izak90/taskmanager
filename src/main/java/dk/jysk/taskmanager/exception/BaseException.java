@@ -1,13 +1,9 @@
-package dk.jysk.taskmanager.exceptions;
+package dk.jysk.taskmanager.exception;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor(force = true)
-@Data
+@Getter
 public class BaseException extends RuntimeException {
     private final String errorCode;
     private final HttpStatus status;
