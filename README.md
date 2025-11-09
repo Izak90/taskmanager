@@ -30,6 +30,8 @@ It’s designed to be lightweight, self-contained, and easily extendable to a cl
 | **Security**                  | Spring Security (HTTP Basic + Roles) |
 | **Validation**                | Jakarta Bean Validation              |
 | **Build Tool**                | Maven                                |
+| **API Documentation**         | Swagger                              |
+| **Logs**                      | Slf4j                                |
 | **Testing**                   | JUnit 5, MockMvc                     |
 | **CI/CD**                     | GitHub Actions                       |
 | **Containerization (future)** | Docker & Kubernetes                  |
@@ -51,7 +53,7 @@ Swagger UI available at:
 [http://localhost:8082/swagger-ui.html](http://localhost:8082/swagger-ui.html)
 
 ## Logging
-Logs are configured via `application.yml`:
+Logs are configured via `application.properties`:
 - Default: INFO
 - Package `dk.jysk.taskmanager`: DEBUG
 
