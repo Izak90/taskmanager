@@ -1,5 +1,7 @@
 package dk.jysk.taskmanager.service;
 
+import dk.jysk.taskmanager.dto.TaskDTO;
+import dk.jysk.taskmanager.dto.TaskMapper;
 import dk.jysk.taskmanager.entity.TaskEntity;
 import dk.jysk.taskmanager.exception.TaskManagementException;
 import dk.jysk.taskmanager.exception.TaskNotFoundException;
@@ -17,6 +19,9 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
+    @Autowired
+    private TaskMapper taskMapper;
+
     @Override
     public List<TaskEntity> findAll() {
         log.info("Fetching every task");
@@ -31,7 +36,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskEntity save(TaskEntity taskEntity) {
+    public TaskEntity save(TaskDTO taskDTO) {
+        TaskEntity taskEntity = taskMapper.toEntity(taskDTO);
         log.info("Creating new task with title: {}", taskEntity.getTitle());
         try {
             TaskEntity saved = taskRepository.save(taskEntity);
@@ -44,13 +50,13 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public synchronized TaskEntity update(Long id, TaskEntity updatedTaskEntity) {
+    public synchronized TaskEntity update(Long id, TaskDTO taskDTO) {
         log.info("Updating task with ID: {}", id);
         try {
             TaskEntity existing = findById(id);
-            existing.setTitle(updatedTaskEntity.getTitle());
-            existing.setDescription(updatedTaskEntity.getDescription());
-            existing.setStatus(updatedTaskEntity.getStatus());
+            existing.setTitle(taskDTO.title());
+            existing.setDescription(taskDTO.description());
+            existing.setStatus(taskDTO.status());
             return taskRepository.save(existing);
         } catch (TaskNotFoundException nf) {
             log.error(nf.getMessage());
