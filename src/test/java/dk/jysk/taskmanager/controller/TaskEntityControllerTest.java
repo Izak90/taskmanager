@@ -67,10 +67,7 @@ class TaskEntityControllerTest {
 
     @Test
     void shouldForbidUserFromCreatingTask() throws Exception {
-        TaskEntity newTask = new TaskEntity();
-        newTask.setTitle("Unauthorized Task");
-        newTask.setDescription("User should not create this");
-        newTask.setStatus("PENDING");
+        TaskDTO newTask = new TaskDTO("Unauthorized Task", "User should not create this", "PENDING");
 
         mockMvc.perform(post("/tasks")
                         .header("Authorization", userAuth)
@@ -109,10 +106,7 @@ class TaskEntityControllerTest {
     void shouldForbidUserFromUpdatingTask() throws Exception {
         TaskEntity saved = taskRepository.save(new TaskEntity(null, "Blocked Task", "User cannot update", "PENDING", null, null));
 
-        TaskEntity update = new TaskEntity();
-        update.setTitle("Hack Attempt");
-        update.setDescription("User trying to update");
-        update.setStatus("FAILED");
+        TaskDTO update = new TaskDTO("Hack Attempt", "User trying to update", "FAILED");
 
         mockMvc.perform(put("/tasks/{id}", saved.getId())
                         .header("Authorization", userAuth)
