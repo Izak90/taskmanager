@@ -1,13 +1,13 @@
-name: Java CI with Maven
+name: Java CI/CD Pipeline TaskManager API
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,5 +16,13 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Build with Maven
+          cache: 'maven'
+
+      - name: Run tests and build
         run: mvn clean verify
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: taskmanager-app-jar-${{ github.ref_name }}  # Include branch name in artifact name
+          path: target/*.jar
