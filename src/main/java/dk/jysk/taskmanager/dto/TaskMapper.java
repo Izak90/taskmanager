@@ -2,7 +2,6 @@ package dk.jysk.taskmanager.dto;
 
 import dk.jysk.taskmanager.entity.TaskEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;

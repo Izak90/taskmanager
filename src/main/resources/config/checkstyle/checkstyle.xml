@@ -15,7 +15,6 @@
     <!-- TreeWalker -->
     <module name="TreeWalker">
         <!-- Apenas regras que podem estar no TreeWalker -->
-        <module name="AvoidStarImport"/>
         <module name="UnusedImports"/>
         <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>

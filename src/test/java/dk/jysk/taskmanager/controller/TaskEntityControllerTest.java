@@ -1,6 +1,7 @@
 package dk.jysk.taskmanager.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.jysk.taskmanager.dto.TaskDTO;
 import dk.jysk.taskmanager.entity.TaskEntity;
 import dk.jysk.taskmanager.repository.TaskRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,10 +54,7 @@ class TaskEntityControllerTest {
 
     @Test
     void shouldCreateTaskAsAdmin() throws Exception {
-        TaskEntity newTask = new TaskEntity();
-        newTask.setTitle("Prepare Interview");
-        newTask.setDescription("Create demo project");
-        newTask.setStatus("PENDING");
+        TaskDTO newTask = new TaskDTO("Prepare Interview", "Create demo project", "PENDING");
 
         mockMvc.perform(post("/tasks")
                         .header("Authorization", adminAuth)
@@ -96,10 +94,7 @@ class TaskEntityControllerTest {
     void shouldUpdateTaskAsAdmin() throws Exception {
         TaskEntity saved = taskRepository.save(new TaskEntity(null, "Old Title", "Old Description", "PENDING", null, null));
 
-        TaskEntity update = new TaskEntity();
-        update.setTitle("Updated Title");
-        update.setDescription("Updated Description");
-        update.setStatus("IN_PROGRESS");
+        TaskDTO update = new TaskDTO("Updated Title", "Updated Description", "IN_PROGRESS");
 
         mockMvc.perform(put("/tasks/{id}", saved.getId())
                         .header("Authorization", adminAuth)
