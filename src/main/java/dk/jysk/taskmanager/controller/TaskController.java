@@ -82,8 +82,8 @@ public class TaskController {
                     schema = @Schema(implementation = TaskDTO.class)
                 )
             )
-            @Valid @RequestBody TaskDTO taskEntity) {
-        return service.save(taskEntity);
+            @Valid @RequestBody TaskDTO taskDTO) {
+        return service.save(taskDTO);
     }
 
     @Operation(summary = "Update task by id", description = "Requires ADMIN role")

@@ -16,8 +16,5 @@ public interface TaskMapper {
 
     List<TaskDTO> toDtoList(List<TaskEntity> tasks);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "updatedAt", ignore = true)
     TaskEntity toEntity(TaskDTO taskDTO);
 }
