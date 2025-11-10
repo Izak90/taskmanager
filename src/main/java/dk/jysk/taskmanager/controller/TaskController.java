@@ -1,8 +1,8 @@
 package dk.jysk.taskmanager.controller;
 
 import dk.jysk.taskmanager.dto.ErrorResponse;
+import dk.jysk.taskmanager.dto.TaskDTO;
 import dk.jysk.taskmanager.entity.TaskEntity;
-import dk.jysk.taskmanager.exception.TaskManagementException;
 import dk.jysk.taskmanager.service.TaskService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -29,7 +29,7 @@ public class TaskController {
             @ApiResponse(responseCode = "200", description = "Ok", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = TaskEntity.class)) }),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content()),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class)) })
@@ -44,7 +44,7 @@ public class TaskController {
             @ApiResponse(responseCode = "200", description = "Ok", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = TaskEntity.class)) }),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content()),
             @ApiResponse(responseCode = "404", description = "Task not found", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class)) }),
@@ -66,18 +66,23 @@ public class TaskController {
             @ApiResponse(responseCode = "400", description = "Error Creating Task", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content()),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content()),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class)) })
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskEntity create(@Valid @RequestBody TaskEntity taskEntity) {
-        if (taskEntity.getId() != null) {
-            throw new TaskManagementException("Error creating a new task. The parameter id cannot be passed");
-        }
+    public TaskEntity create(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                description = "Data to create task: only title, description and status are accepted",
+                required = true,
+                content = @Content(
+                    schema = @Schema(implementation = TaskDTO.class)
+                )
+            )
+            @Valid @RequestBody TaskDTO taskEntity) {
         return service.save(taskEntity);
     }
 
@@ -89,8 +94,8 @@ public class TaskController {
             @ApiResponse(responseCode = "400", description = "Error Updating Task", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content()),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content()),
             @ApiResponse(responseCode = "404", description = "Task not found", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class)) }),
@@ -101,8 +106,15 @@ public class TaskController {
     @PutMapping("/{id}")
     public TaskEntity update(
             @Parameter(description = "ID of the task to update", example = "1") @PathVariable Long id,
-            @Valid @RequestBody TaskEntity taskEntity) {
-        return service.update(id, taskEntity);
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Data to update task: only title, description and status are accepted",
+                    required = true,
+                    content = @Content(
+                            schema = @Schema(implementation = TaskDTO.class)
+                    )
+            )
+            @Valid @RequestBody TaskDTO taskDTO) {
+        return service.update(id, taskDTO);
     }
 
     @Operation(summary = "Delete task by id", description = "Requires ADMIN role")
@@ -111,8 +123,8 @@ public class TaskController {
             @ApiResponse(responseCode = "400", description = "Error Deleting Task", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class)) }),
-            @ApiResponse(responseCode = "401", description = "Unauthorized"),
-            @ApiResponse(responseCode = "403", description = "Forbidden"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content()),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content()),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = {
                     @Content(mediaType = "application/json", schema =
                     @Schema(implementation = ErrorResponse.class)) })
