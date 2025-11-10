@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BaseException.class)
     public ResponseEntity<ErrorResponse> handleBaseException(BaseException ex, HttpServletRequest request) {
-        log.warn("Handled exception [{}] at path {}: {}", ex.getErrorCode(), request.getRequestURI(), ex.getMessage());
+        log.warn("Handled Base Exception [{}] at path {}: {}", ex.getErrorCode(), request.getRequestURI(), ex.getMessage());
         ErrorResponse error = ErrorResponse.of(
                 ex.getErrorCode(),
                 ex.getMessage(),
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex, HttpServletRequest request) {
-        log.warn("Handled exception [{}] at path {}: {}", ex.getMessage(), request.getRequestURI(), ex.getStackTrace());
+        log.warn("Handled Generic Exception [{}] at path {}: {}", ex.getMessage(), request.getRequestURI(), ex.getStackTrace());
         ErrorResponse error = ErrorResponse.of(
                 "INTERNAL_SERVER_ERROR",
                 ex.getMessage(),
